@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Taskify</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <style>
+        :root{
+            --accent1: #0d6efd;
+            --accent2: #6c63ff;
+        }
         body {
             font-family: 'Roboto', Arial, sans-serif;
             background: linear-gradient(135deg, #e3f0ff 0%, #f8f9fa 100%);
             min-height: 100vh;
+            color: #212529;
         }
         body.dark-mode {
             background: linear-gradient(135deg, #212529 0%, #343a40 100%);
             color: #f8f9fa;
         }
+
+        /* Navbar */
         .navbar {
             border-radius: 0 0 1rem 1rem;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            background: linear-gradient(90deg, #0d6efd 0%, #6c63ff 100%);
+            background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 100%);
         }
         .navbar .navbar-brand {
             color: #fff;
@@ -27,29 +34,19 @@
             font-size: 1.5rem;
             letter-spacing: 1px;
         }
-        .navbar .btn-outline-secondary {
-            border-color: #fff;
-            color: #fff;
+
+        /* Section spacing utilities */
+        .section {
+            padding: 2.25rem 0;
         }
-        .navbar .btn-outline-secondary:hover {
-            background: #fff;
-            color: #0d6efd;
+        .section .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        .container {
-            max-width: 1100px;
-        }
-        #taskForm {
-            background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            padding: 1.5rem 1rem;
-        }
-        body.dark-mode #taskForm {
-            background: #23272b;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-        }
-        #taskForm input, #taskForm select {
-            border-radius: 0.5rem;
+        .hero {
+            padding-top: 3rem;
+            padding-bottom: 2.25rem;
+            text-align: center;
         }
         .card {
             border-radius: 1rem;
@@ -79,81 +76,83 @@
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
-        .badge {
-            font-size: 0.9rem;
-            margin-right: 0.25rem;
+
+        /* Task form + panels */
+        #taskForm {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 1.5rem;
         }
+        body.dark-mode #taskForm {
+            background: #23272b;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        }
+        #taskForm input, #taskForm select {
+            border-radius: 0.5rem;
+        }
+
+        /* Controls area */
+        .controls-panel {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        body.dark-mode .controls-panel {
+            background: #23272b;
+        }
+
+        /* Badges & buttons */
         .badge.bg-info {
-            background: linear-gradient(90deg, #0dcaf0 0%, #6c63ff 100%);
-            color: #fff;
-        }
-        .badge.bg-secondary {
-            background: #6c757d;
-        }
-        .badge.bg-success {
-            background: linear-gradient(90deg, #198754 0%, #43e97b 100%);
+            background: linear-gradient(90deg, #0dcaf0 0%, var(--accent2) 100%);
             color: #fff;
         }
         .btn-sm {
             border-radius: 0.5rem;
             font-weight: 500;
         }
-        .btn-outline-success {
-            border-color: #198754;
-            color: #198754;
-        }
-        .btn-outline-success:hover {
-            background: #198754;
-            color: #fff;
-        }
-        .btn-outline-primary {
-            border-color: #0d6efd;
-            color: #0d6efd;
-        }
-        .btn-outline-primary:hover {
-            background: #0d6efd;
-            color: #fff;
-        }
-        .btn-outline-danger {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-        .btn-outline-danger:hover {
-            background: #dc3545;
-            color: #fff;
-        }
-        #editTaskModal .modal-content {
-            border-radius: 1rem;
-        }
+        .btn-outline-success { border-color: #198754; color: #198754; }
+        .btn-outline-success:hover { background: #198754; color: #fff; }
+        .btn-outline-primary { border-color: var(--accent1); color: var(--accent1); }
+        .btn-outline-primary:hover { background: var(--accent1); color: #fff; }
+        .btn-outline-danger { border-color: #dc3545; color: #dc3545; }
+        .btn-outline-danger:hover { background: #dc3545; color: #fff; }
+
+        /* Modal styling */
+        #editTaskModal .modal-content { border-radius: 1rem; }
         #editTaskModal .modal-header {
-            background: linear-gradient(90deg, #0d6efd 0%, #6c63ff 100%);
+            background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 100%);
             color: #fff;
             border-top-left-radius: 1rem;
             border-top-right-radius: 1rem;
         }
-        #editTaskModal .modal-footer {
-            border-bottom-left-radius: 1rem;
-            border-bottom-right-radius: 1rem;
+
+        /* Progress bar */
+        .progress { height: 1.5rem; border-radius: .75rem; overflow: hidden; }
+
+        /* Small helpers */
+        .section-header {
+            margin-bottom: 1rem;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:1rem;
         }
+        .section-header h2 { margin:0; font-size:1.125rem; font-weight:700; color:var(--accent2); }
+        .muted-small { color: #6c757d; font-size: .95rem; }
+
         /* Custom scrollbar for dark mode */
-        body.dark-mode ::-webkit-scrollbar {
-            width: 8px;
-            background: #23272b;
-        }
-        body.dark-mode ::-webkit-scrollbar-thumb {
-            background: #343a40;
-            border-radius: 4px;
-        }
+        body.dark-mode ::-webkit-scrollbar { width: 8px; background: #23272b; }
+        body.dark-mode ::-webkit-scrollbar-thumb { background: #343a40; border-radius: 4px; }
+
         /* Responsive tweaks */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 0.5rem;
-            }
-            #taskForm {
-                padding: 1rem 0.5rem;
-            }
+            .container { padding: 0 0.5rem; }
+            #taskForm { padding: 1rem; }
         }
     </style>
+</head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light px-3 mb-3">
@@ -173,118 +172,230 @@
         </div>
     </nav>
 
-    <div class="container my-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center"></div>
-                <h1 class="mb-3 fw-bold" style="background: linear-gradient(90deg, #0d6efd 0%, #6c63ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                    Manage Your Tasks Efficiently
-                </h1>
-                <p class="lead mb-4" style="color: #6c63ff;">
-                    Add, edit, complete, and delete tasks with ease.<br>
-                    <span class="fw-semibold">Stay organized and boost your productivity!</span>
-                </p>
-                <div class="d-flex justify-content-center gap-3 mb-2">
-                    <span class="badge rounded-pill bg-primary px-3 py-2 shadow">Easy to Use</span>
-                    <span class="badge rounded-pill bg-success px-3 py-2 shadow">Productivity</span>
-                    <span class="badge rounded-pill bg-info px-3 py-2 shadow">Organized</span>
-                </div>
-                <hr class="my-4" style="border-top: 2px solid #6c63ff; opacity: 0.3;">
-            </div>
-        </div>
-    </div>
-
-    <div class="container my-4">
-        <!-- Progress Bar -->
-        <div class="mb-4"></div>
-            <label class="fw-semibold mb-2">Task Completion</label>
-            <div class="progress" style="height: 1.5rem;">
-                <div id="completionBar" class="progress-bar bg-success fw-bold" role="progressbar" style="width: 0%">0%</div>
-            </div>
-        </div>
-
-        <!-- Task Input Section -->
-        <form id="taskForm" class="row g-3 mb-4 shadow-sm">
-            <div class="col-md-4">
-                <input type="text" class="form-control" id="taskTitle" placeholder="Task Title" required>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select" id="taskCategory" required>
-                    <option value="" disabled selected>Category</option>
-                    <option value="Work">Work</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Urgent">Urgent</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" id="taskDueDate" required>
-            </div>
-            <div class="col-md-2 d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">Add Task</button>
-            </div>
-        </form>
-
-        <!-- Controls Section -->
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-2 mb-2 mb-md-0">
-                <button id="clearAllBtn" class="btn btn-outline-danger w-100">Clear All Tasks</button>
-            </div>
-            <div class="col-md-3 mb-2 mb-md-0">
-                <input type="text" id="searchBar" class="form-control" placeholder="Search by title...">
-            </div>
-            <div class="col-md-2 mb-2 mb-md-0">
-                <select id="filterCategory" class="form-select">
-                    <option value="All">All Categories</option>
-                    <option value="Work">Work</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Urgent">Urgent</option>
-                </select>
-            </div>
-            <div class="col-md-2 mb-2 mb-md-0">
-                <select id="filterStatus" class="form-select">
-                    <option value="All">All Status</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Pending">Pending</option>
-                </select>
-            </div>
-            <div class="col-md-2 mb-2 mb-md-0">
-                <select id="sortBy" class="form-select">
-                    <option value="none">Sort By</option>
-                    <option value="dueDateAsc">Due Date ↑</option>
-                    <option value="dueDateDesc">Due Date ↓</option>
-                    <option value="status">Status</option>
-                </select>
-            </div>
-            <div class="col-md-1">
-                <span id="taskCount" class="badge bg-secondary w-100 py-2"></span>
-            </div>
-        </div>
-
-        <!-- Export/Import Section -->
-        <div class="row mb-3">
-            <div class="col-md-2 mb-2 mb-md-0">
-                <button id="exportBtn" class="btn btn-outline-primary w-100">Export Tasks</button>
-            </div>
-            <div class="col-md-4 mb-2 mb-md-0">
-                <input type="file" id="importFile" class="form-control" accept=".json">
-            </div>
-            <div class="col-md-2 mb-2 mb-md-0">
-                <button id="importBtn" class="btn btn-outline-success w-100">Import Tasks</button>
-            </div>
-        </div>
-
-        <!-- Toast Notification -->
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
-            <div id="toastNotif" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body" id="toastBody"></div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    <!-- HERO -->
+    <section class="hero section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="mb-3 fw-bold" style="background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Manage Your Tasks Efficiently
+                    </h1>
+                    <p class="lead mb-4" style="color: var(--accent2);">
+                        Add, edit, complete, and delete tasks with ease.<br>
+                        <span class="fw-semibold">Stay organized and boost your productivity!</span>
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 mb-3 flex-wrap">
+                        <span class="badge rounded-pill bg-primary px-3 py-2 shadow">Easy to Use</span>
+                        <span class="badge rounded-pill bg-success px-3 py-2 shadow">Productivity</span>
+                        <span class="badge rounded-pill bg-info px-3 py-2 shadow">Organized</span>
+                    </div>
+                    <hr class="my-4" style="border-top: 2px solid var(--accent2); opacity: 0.15;">
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Task Display Section -->
-        <div id="taskGrid" class="row row-cols-1 row-cols-md-3 g-4"></div>
-    </div>
+    <!-- Progress and Input -->
+    <section class="section d-flex justify-content-center align-items-center" style="min-height:40vh;">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-lg-8 mx-auto"></div>
+                    <div id="taskForm" class="shadow-sm">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="taskTitle" placeholder="Task Title" required>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="taskCategory" required>
+                                    <option value="" disabled selected>Category</option>
+                                    <option value="Work">Work</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" id="taskDueDate" required>
+                            </div>
+                            <div class="col-md-1 d-grid">
+                                <button type="submit" form="taskFormInner" class="btn btn-primary btn-lg">Add</button>
+                            </div>
+                        </div>
+                        <!-- hidden real form to keep previous JS behavior -->
+                        <form id="taskFormInner" style="display:none;"></form>
+                    </div>
+
+                    <div class="mt-4 controls-panel">
+                        <div class="section-header">
+                            <h2>Overview</h2>
+                            <div class="text-end muted-small">
+                                <span id="taskCount">Total: 0 | ✔️ 0 | ⏳ 0</span>
+                            </div>
+                        </div>
+
+                        <label class="fw-semibold mb-2">Task Completion</label>
+                        <div class="progress mb-3">
+                            <div id="completionBar" class="progress-bar bg-success fw-bold" role="progressbar" style="width: 0%">0%</div>
+                        </div>
+
+                        <div class="row gy-3">
+                            <div class="col-md-3">
+                                <button id="clearAllBtn" class="btn btn-outline-danger w-100">Clear All</button>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="searchBar" class="form-control" placeholder="Search by title...">
+                            </div>
+                            <div class="col-md-2">
+                                <select id="filterCategory" class="form-select">
+                                    <option value="All">All Categories</option>
+                                    <option value="Work">Work</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex gap-2">
+                                    <select id="filterStatus" class="form-select">
+                                        <option value="All">All Status</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                    <select id="sortBy" class="form-select">
+                                        <option value="none">Sort By</option>
+                                        <option value="dueDateAsc">Due Date ↑</option>
+                                        <option value="dueDateDesc">Due Date ↓</option>
+                                        <option value="status">Status</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Create attractive import/export + quick-add controls directly in the navbar
+                        (function () {
+                            const navRight = document.querySelector('#navbarContent .ms-auto');
+                            if (!navRight) return;
+
+                            const ctrl = document.createElement('div');
+                            ctrl.className = 'd-flex align-items-center gap-2 me-2';
+
+                            // hidden file input for import
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.id = 'importFile';
+                            fileInput.accept = '.json,application/json';
+                            fileInput.className = 'd-none';
+
+                            // Export button
+                            const exportBtn = document.createElement('button');
+                            exportBtn.type = 'button';
+                            exportBtn.id = 'exportBtn';
+                            exportBtn.className = 'btn btn-outline-light btn-sm rounded-pill shadow-sm';
+                            exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right me-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3a1 1 0 0 0-1 1v1h1V4h6v6h-1v1h1a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H6z"/>
+                                <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V2.707L4.854 8.354a.5.5 0 1 1-.708-.708L10.293 2H6a.5.5 0 0 1 0-1h5.5z"/>
+                            </svg>Export`;
+
+                            // Import button (opens file dialog)
+                            const importBtn = document.createElement('button');
+                            importBtn.type = 'button';
+                            importBtn.id = 'importBtn';
+                            importBtn.className = 'btn btn-light btn-sm rounded-pill shadow-sm';
+                            importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up me-1" viewBox="0 0 16 16">
+                                <path d="M8 5a.5.5 0 0 1 .5.5V9h2.5a.5.5 0 0 1 0 1H8.5v3.5a.5.5 0 0 1-1 0V10H5a.5.5 0 0 1 0-1h2.5V5.5A.5.5 0 0 1 8 5z"/>
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6.5L14 4.5zM13 4h-2.5A1.5 1.5 0 0 1 9 2.5V0H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4z"/>
+                            </svg>Import`;
+
+                            // Quick add demo button
+                            const quickAdd = document.createElement('button');
+                            quickAdd.type = 'button';
+                            quickAdd.id = 'quickAddDemo';
+                            quickAdd.className = 'btn btn-light btn-sm rounded-pill shadow-sm';
+                            quickAdd.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-fill me-1" viewBox="0 0 16 16">
+                                <path d="M11.3 1L1 10.9h5.2L4.7 15 15 5.1H9.8L11.3 1z"/>
+                            </svg>Quick Add`;
+
+                            // wire import button to open file dialog
+                            importBtn.addEventListener('click', () => fileInput.click());
+
+                            // handle the selected file (import) — runs later when user selects a file
+                            fileInput.addEventListener('change', function () {
+                                const file = this.files && this.files[0];
+                                if (!file) {
+                                    // rely on existing showToast if available
+                                    if (window.showToast) window.showToast('No file selected.', 'warning');
+                                    return;
+                                }
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    try {
+                                        const importedTasks = JSON.parse(e.target.result);
+                                        if (!Array.isArray(importedTasks)) throw new Error();
+                                        // if the main task logic is present, integrate and re-render
+                                        if (window.tasks && Array.isArray(window.tasks)) {
+                                            window.tasks = importedTasks.map(t => ({
+                                                id: typeof t.id === 'number' ? t.id : Date.now(),
+                                                title: typeof t.title === 'string' ? t.title : '',
+                                                category: typeof t.category === 'string' ? t.category : '',
+                                                dueDate: typeof t.dueDate === 'string' ? t.dueDate : '',
+                                                completed: !!t.completed
+                                            }));
+                                            localStorage.setItem('tasks', JSON.stringify(window.tasks));
+                                            if (window.renderTasks) window.renderTasks();
+                                            if (window.showToast) window.showToast('Tasks imported!', 'success');
+                                        } else {
+                                            if (window.showToast) window.showToast('Imported file parsed but task system not ready.', 'warning');
+                                        }
+                                    } catch {
+                                        if (window.showToast) window.showToast('Invalid file format.', 'danger');
+                                    } finally {
+                                        // reset input so same file can be re-selected later
+                                        fileInput.value = '';
+                                    }
+                                };
+                                reader.readAsText(file);
+                            });
+
+                            ctrl.appendChild(fileInput);
+                            ctrl.appendChild(exportBtn);
+                            ctrl.appendChild(importBtn);
+                            ctrl.appendChild(quickAdd);
+
+                            const themeBtn = navRight.querySelector('#themeToggle');
+                            navRight.insertBefore(ctrl, themeBtn);
+
+                            // enable bootstrap tooltips (if bootstrap is loaded later, tooltips will initialize then)
+                            function initTooltips() {
+                                if (window.bootstrap && bootstrap.Tooltip) {
+                                    [exportBtn, importBtn, quickAdd].forEach(btn => {
+                                        new bootstrap.Tooltip(btn, { title: btn.textContent.trim(), placement: 'bottom' });
+                                    });
+                                }
+                            }
+                            // Try init now and again on DOMContentLoaded (covers different load orders)
+                            initTooltips();
+                            document.addEventListener('DOMContentLoaded', initTooltips);
+                        })();
+                    </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Task Grid -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center mb-3">
+                <div class="col">
+                    <h2 class="fw-bold" style="color: var(--accent2);">Tasks</h2>
+                    <p class="muted-small mb-0">Your current task list — manage, edit, and complete items below.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="taskGrid" class="row row-cols-1 row-cols-md-3 g-4"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- Edit Task Modal -->
     <div class="modal fade" id="editTaskModal" tabindex="-1">
@@ -295,10 +406,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="editTaskId">
+                    <input type="hidden" id="editTaskId" />
                     <div class="mb-3">
                         <label for="editTaskTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="editTaskTitle" required>
+                        <input type="text" class="form-control" id="editTaskTitle" required />
                     </div>
                     <div class="mb-3">
                         <label for="editTaskCategory" class="form-label">Category</label>
@@ -310,7 +421,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="editTaskDueDate" class="form-label">Due Date</label>
-                        <input type="date" class="form-control" id="editTaskDueDate" required>
+                        <input type="date" class="form-control" id="editTaskDueDate" required />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -321,9 +432,36 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+        <div id="toastNotif" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastBody"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-4 bg-light text-center shadow-sm" style="border-radius: 1rem 1rem 0 0;">
+        <div class="container">
+            <h5 class="fw-bold mb-2" style="color: var(--accent2);">Taskify</h5>
+            <p class="mb-1" style="color: #343a40;">
+                <span class="fw-semibold">Organize your day, achieve your goals.</span>
+            </p>
+            <div class="mb-2">
+                <a href="#" class="text-decoration-none text-secondary mx-2">Home</a> |
+                <a href="#" class="text-decoration-none text-secondary mx-2">About</a> |
+                <a href="#" class="text-decoration-none text-secondary mx-2">Contact</a> |
+                <a href="#" class="text-decoration-none text-secondary mx-2">Privacy Policy</a>
+            </div>
+            <small class="text-muted">© 2025 Taskify. All rights reserved.</small>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Task Manager Logic
+        // Task Manager Logic (kept largely intact, only small wiring for new quick-add button)
         const taskForm = document.getElementById('taskForm');
         const taskGrid = document.getElementById('taskGrid');
         const filterCategory = document.getElementById('filterCategory');
@@ -337,36 +475,105 @@
         const completionBar = document.getElementById('completionBar');
         const toastNotif = document.getElementById('toastNotif');
         const toastBody = document.getElementById('toastBody');
-        // Export/Import elements
         const exportBtn = document.getElementById('exportBtn');
         const importBtn = document.getElementById('importBtn');
         const importFile = document.getElementById('importFile');
+        const quickAddDemo = document.getElementById('quickAddDemo');
 
         let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
         let currentTheme = localStorage.getItem('theme') || 'light';
         let searchQuery = '';
 
-        // Toast function
         function showToast(msg, type = 'primary') {
             toastBody.textContent = msg;
             toastNotif.className = `toast align-items-center text-bg-${type} border-0`;
             const toast = new bootstrap.Toast(toastNotif);
             toast.show();
         }
-
-        // Theme Toggle
         function setTheme(mode) {
             document.body.classList.toggle('dark-mode', mode === 'dark');
-            themeToggle.textContent = mode === 'dark' ? 'Light Mode' : 'Dark Mode';
+            const label = mode === 'dark' ? 'Light Mode' : 'Dark Mode';
+            // update both desktop + mobile toggles if present
+            if (themeToggle) {
+            themeToggle.textContent = label;
+            if (mode === 'dark') {
+                themeToggle.classList.remove('btn-outline-secondary');
+                themeToggle.classList.add('btn-light');
+            } else {
+                themeToggle.classList.remove('btn-light');
+                themeToggle.classList.add('btn-outline-secondary');
+            }
+            }
+            if (window.themeToggleMobile) {
+            window.themeToggleMobile.textContent = label;
+            if (mode === 'dark') {
+                window.themeToggleMobile.classList.remove('btn-outline-secondary');
+                window.themeToggleMobile.classList.add('btn-light');
+            } else {
+                window.themeToggleMobile.classList.remove('btn-light');
+                window.themeToggleMobile.classList.add('btn-outline-secondary');
+            }
+            }
             localStorage.setItem('theme', mode);
         }
+
+        // move theme toggle to left corner of navbar and add a mobile-visible toggle inside the collapse
+        (function placeThemeToggleLeft() {
+            const navbar = document.querySelector('.navbar');
+            const navbarContent = document.getElementById('navbarContent');
+            if (!navbar || !themeToggle) return;
+
+            // ensure navbar can be the relative positioning context
+            const prevPosition = navbar.style.position;
+            if (!prevPosition) navbar.style.position = 'relative';
+
+            // make desktop toggle only visible on lg+ (keeps absolute left corner)
+            themeToggle.classList.add('d-none', 'd-lg-inline-block');
+            // move the existing button to the start of the navbar and style it
+            navbar.insertBefore(themeToggle, navbar.firstChild);
+            Object.assign(themeToggle.style, {
+            position: 'absolute',
+            left: '1rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: '1060'
+            });
+
+            // create a mobile-only toggle that appears inside the collapsed menu (visible < lg)
+            if (navbarContent) {
+            const mobile = themeToggle.cloneNode(true);
+            mobile.id = 'themeToggleMobile';
+            // show only on small screens
+            mobile.classList.remove('d-lg-inline-block');
+            mobile.classList.remove('d-none');
+            mobile.classList.add('d-inline-block', 'd-lg-none', 'w-100', 'mb-2');
+            // remove absolute styles for mobile copy
+            mobile.style.position = '';
+            mobile.style.left = '';
+            mobile.style.top = '';
+            mobile.style.transform = '';
+            mobile.style.zIndex = '';
+
+            // insert at top of collapsed content so it's visible when menu opens
+            navbarContent.insertBefore(mobile, navbarContent.firstChild);
+            window.themeToggleMobile = mobile;
+
+            // wire mobile toggle click to same behavior
+            mobile.addEventListener('click', () => {
+                currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(currentTheme);
+            });
+            }
+        })();
+
+        // unified click handler for desktop (existing button)
         themeToggle.onclick = () => {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
             setTheme(currentTheme);
         };
+
         setTheme(currentTheme);
 
-        // Render Tasks
         function renderTasks() {
             taskGrid.innerHTML = '';
             let filtered = tasks.filter(task => {
@@ -378,7 +585,6 @@
                 return cat && stat && search;
             });
 
-            // Sorting
             if (sortBy.value === 'dueDateAsc') {
                 filtered.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
             } else if (sortBy.value === 'dueDateDesc') {
@@ -387,7 +593,6 @@
                 filtered.sort((a, b) => Number(a.completed) - Number(b.completed));
             }
 
-            // Task Count & Progress Bar
             const total = tasks.length;
             const completed = tasks.filter(t => t.completed).length;
             const pending = total - completed;
@@ -404,7 +609,6 @@
                 return;
             }
             filtered.forEach(task => {
-                // Due Date Highlighting
                 let dueDateClass = '';
                 let dueDateLabel = '';
                 if (task.dueDate) {
@@ -420,20 +624,22 @@
                         }
                     }
                 }
-                card = document.createElement('div');
-                card.className = 'col';
-                card.innerHTML = `
-                    <div class="card h-100${task.completed ? ' completed' : ''}" data-id="${task.id}">
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.innerHTML = `
+                    <div class="card h-100 ${task.completed ? 'completed' : ''}" data-id="${task.id}">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 <h5 class="card-title">${task.title}</h5>
-                                <span class="badge bg-info">${task.category}</span>
-                                <span class="badge ${dueDateClass ? dueDateClass : 'bg-secondary'}">${task.dueDate}
-                                    ${dueDateLabel ? `<span class="ms-1">${dueDateLabel}</span>` : ''}
-                                </span>
-                                ${task.completed ? '<span class="badge bg-success ms-2">Completed</span>' : ''}
+                                <div class="mb-2">
+                                    <span class="badge bg-info">${task.category}</span>
+                                    <span class="badge ${dueDateClass ? dueDateClass : 'bg-secondary'}">${task.dueDate || 'No date'}
+                                        ${dueDateLabel ? `<span class="ms-1">${dueDateLabel}</span>` : ''}
+                                    </span>
+                                    ${task.completed ? '<span class="badge bg-success ms-2">Completed</span>' : ''}
+                                </div>
                             </div>
-                            <div class="d-flex gap-2 mt-4">
+                            <div class="d-flex gap-2 mt-3">
                                 <button class="btn btn-sm btn-outline-success complete-btn">${task.completed ? 'Undo' : 'Complete'}</button>
                                 <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editTaskModal">Edit</button>
                                 <button class="btn btn-sm btn-outline-danger delete-btn">Delete</button>
@@ -441,32 +647,30 @@
                         </div>
                     </div>
                 `;
-                taskGrid.appendChild(card);
+                taskGrid.appendChild(col);
             });
         }
 
-        // Add Task
-        taskForm.onsubmit = e => {
+        // Add Task (wire the visible controls)
+        document.querySelector('#taskForm .btn[type="submit"], #taskForm button[type="submit"]').addEventListener('click', function (e) {
             e.preventDefault();
             const title = document.getElementById('taskTitle').value.trim();
             const category = document.getElementById('taskCategory').value;
             const dueDate = document.getElementById('taskDueDate').value;
-            if (!title || !category || !dueDate) return;
-            const newTask = {
-                id: Date.now(),
-                title,
-                category,
-                dueDate,
-                completed: false
-            };
+            if (!title || !category || !dueDate) {
+                showToast('Please fill all fields.', 'warning');
+                return;
+            }
+            const newTask = { id: Date.now(), title, category, dueDate, completed: false };
             tasks.push(newTask);
             localStorage.setItem('tasks', JSON.stringify(tasks));
             renderTasks();
             showToast('Task added!', 'success');
-            taskForm.reset();
-        };
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskCategory').value = '';
+            document.getElementById('taskDueDate').value = '';
+        });
 
-        // Task Actions (Complete, Edit, Delete)
         taskGrid.onclick = e => {
             const card = e.target.closest('.card');
             if (!card) return;
@@ -495,7 +699,6 @@
             }
         };
 
-        // Edit Task Modal Save
         document.getElementById('editTaskForm').onsubmit = e => {
             e.preventDefault();
             const id = Number(document.getElementById('editTaskId').value);
@@ -509,18 +712,15 @@
             editTaskModal.hide();
         };
 
-        // Filters
         filterCategory.onchange = renderTasks;
         filterStatus.onchange = renderTasks;
         sortBy.onchange = renderTasks;
 
-        // Search
         searchBar.oninput = function() {
             searchQuery = this.value;
             renderTasks();
         };
 
-        // Clear All Tasks
         clearAllBtn.onclick = function() {
             if (confirm('Are you sure you want to clear all tasks?')) {
                 tasks = [];
@@ -530,7 +730,6 @@
             }
         };
 
-        // Export Tasks
         exportBtn.onclick = function() {
             const dataStr = JSON.stringify(tasks, null, 2);
             const blob = new Blob([dataStr], { type: "application/json" });
@@ -545,7 +744,6 @@
             showToast('Tasks exported!', 'success');
         };
 
-        // Import Tasks
         importBtn.onclick = function() {
             const file = importFile.files[0];
             if (!file) {
@@ -557,7 +755,6 @@
                 try {
                     const importedTasks = JSON.parse(e.target.result);
                     if (!Array.isArray(importedTasks)) throw new Error();
-                    // Optionally, validate each task object
                     tasks = importedTasks.map(t => ({
                         id: typeof t.id === 'number' ? t.id : Date.now(),
                         title: typeof t.title === 'string' ? t.title : '',
@@ -575,24 +772,16 @@
             reader.readAsText(file);
         };
 
+        quickAddDemo.addEventListener('click', () => {
+            const demo = { id: Date.now(), title: 'Demo Task', category: 'Work', dueDate: new Date(Date.now()+86400000).toISOString().split('T')[0], completed: false };
+            tasks.push(demo);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks();
+            showToast('Demo task added', 'success');
+        });
+
         // Initial Render
         renderTasks();
     </script>
-    <!-- Footer -->
-    <footer class="mt-5 py-4 bg-light text-center shadow-sm" style="border-radius: 1rem 1rem 0 0;">
-        <div class="container">
-            <h5 class="fw-bold mb-2" style="color: #6c63ff;">Taskify</h5>
-            <p class="mb-1" style="color: #343a40;">
-                <span class="fw-semibold">Organize your day, achieve your goals.</span>
-            </p>
-            <div class="mb-2">
-                <a href="#" class="text-decoration-none text-secondary mx-2">Home</a> |
-                <a href="#" class="text-decoration-none text-secondary mx-2">About</a> |
-                <a href="#" class="text-decoration-none text-secondary mx-2">Contact</a> |
-                <a href="#" class="text-decoration-none text-secondary mx-2">Privacy Policy</a>
-            </div>
-            <small class="text-muted">© 2025 Taskify. All rights reserved.</small>
-        </div>
-    </footer>
 </body>
 </html>
